@@ -18,42 +18,49 @@ tasks:
     method: timestamp
 
   docker-build:
-    desc: Build the project
+    desc: Build the docker image
     cmds:
       - docker build -t exporter-app .
 
   test:
     deps: [clean]
+    desc: Run the tests
     cmds:
       - go test -coverprofile=".coverdata/cover.out"
     aliases:
       - t
 
   fmt:
+    desc: Run go fmt
     cmds:
       - go fmt ./...
 
   coverage-show:
+    desc: Show the coverage
     cmds:
       - go tool cover -html=.coverdata/cover.out
 
   clean:
-    desc: Clean the project
+    desc: Clean coverage data
     cmds:
       - rm -fr .coverdata
       - mkdir -p .coverdata
 
   lint:
+    desc: Run golangci-lint
     cmds:
       - golangci-lint run -v
 
   vet:
+    desc: Run go vet
     cmds:
       - go vet ./...
 
   check:
+    desc: Run lint and vet
     cmds:
       - task: lint
       - task: vet
+      - task: test
     aliases:
       - c

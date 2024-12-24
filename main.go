@@ -99,7 +99,10 @@ func generateExcel(db *sqlx.DB, query string, output string, pageSize int, heade
 				}
 			}
 
-			sw.SetColWidth(1, len(columns), 40)
+			err = sw.SetColWidth(1, len(columns), 40)
+			if err != nil {
+				log.Fatal("Failed to set column width:", err)
+			}
 
 			cell, _ := excelize.CoordinatesToCellName(1, rowIndex)
 			if err := sw.SetRow(cell, headers); err != nil {
@@ -148,7 +151,11 @@ func generateExcel(db *sqlx.DB, query string, output string, pageSize int, heade
 }
 
 func streamWriter(f *excelize.File, sheetNum int) *excelize.StreamWriter {
-	f.NewSheet("Sheet" + fmt.Sprint(sheetNum))
+	_, err := f.NewSheet("Sheet" + fmt.Sprint(sheetNum))
+	if err != nil {
+		log.Fatal("Failed to create sheet:", err)
+	}
+
 	sw, err := f.NewStreamWriter("Sheet" + fmt.Sprint(sheetNum))
 	if err != nil {
 		log.Fatal("Failed to create StreamWriter:", err)
