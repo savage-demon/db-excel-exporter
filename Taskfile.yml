@@ -1,0 +1,59 @@
+# https://taskfile.dev
+
+version: "3"
+
+silent: true
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+
+  build:
+    desc: Build the project
+    cmds:
+      - go build -v -o ./exporter{{exeExt}} .
+    sources:
+      - ./*.go
+    method: timestamp
+
+  docker-build:
+    desc: Build the project
+    cmds:
+      - docker build -t exporter-app .
+
+  test:
+    deps: [clean]
+    cmds:
+      - go test -coverprofile=".coverdata/cover.out"
+    aliases:
+      - t
+
+  fmt:
+    cmds:
+      - go fmt ./...
+
+  coverage-show:
+    cmds:
+      - go tool cover -html=.coverdata/cover.out
+
+  clean:
+    desc: Clean the project
+    cmds:
+      - rm -fr .coverdata
+      - mkdir -p .coverdata
+
+  lint:
+    cmds:
+      - golangci-lint run -v
+
+  vet:
+    cmds:
+      - go vet ./...
+
+  check:
+    cmds:
+      - task: lint
+      - task: vet
+    aliases:
+      - c
