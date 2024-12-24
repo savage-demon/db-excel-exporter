@@ -22,12 +22,12 @@ var (
 )
 
 func main() {
-	flag.StringVar(&dbConfigString, "db-url", "", "Параметры подключения к базе данных")
-	flag.StringVar(&dbType, "db-type", "postgres", "Тип базы данных 'postgres'")
-	flag.StringVar(&query, "query", "", "Запрос SELECT")
-	flag.StringVar(&output, "output", "output.xlsx", "Имя выходного файла Excel")
-	flag.IntVar(&pageSize, "page-size", 1000, "Размер страницы")
-	flag.StringVar(&headers, "headers", "", "Заголовки в формате 'key1=value1, key2=value2'")
+	flag.StringVar(&dbConfigString, "db-url", "", "Connection string for the database")
+	flag.StringVar(&dbType, "db-type", "postgres", "Database type, e.g. 'postgres'")
+	flag.StringVar(&query, "query", "", "SELECT query")
+	flag.StringVar(&output, "output", "output.xlsx", "Output filename")
+	flag.IntVar(&pageSize, "page-size", 1000000, "Page size")
+	flag.StringVar(&headers, "headers", "", "Headers in the format 'key1=value1, key2=value2'")
 	flag.Parse()
 
 	if query == "" || dbConfigString == "" {
