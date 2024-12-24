@@ -6,13 +6,21 @@
 
 ## Usage
 
+### Clone the repository
+
+```bash
+git clone https://github.com/savage-demon/db-excel-exporter
+cd db-excel-exporter
+
+```
+
 ### Build the binary
 
 ```bash
 task build
 ```
 
-### Example
+### Usage example
 
 ```bash
 ./exporter --query="select * from products" \
